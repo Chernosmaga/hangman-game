@@ -1,11 +1,11 @@
 import java.util.*;
 
 public class Game {
-    static Manager manager = new Manager();
-    static Random generator = new Random();
-    static List<String> letters = new ArrayList<>();
-    static HashMap<Integer,String> guessedLetters = new HashMap<>();
-    Hangman hangman = new Hangman();
+    private static final Manager manager = new Manager();
+    private static final Random generator = new Random();
+    private static final List<String> letters = new ArrayList<>();
+    private static final HashMap<Integer,String> guessedLetters = new HashMap<>();
+    private final Hangman hangman = new Hangman();
 
     public void guessingALetter(Scanner read) {
         System.out.println("Начнём?\n");
@@ -83,14 +83,23 @@ public class Game {
             letters.add(String.valueOf(letter));
         }
 
-        String first = letters.get(0); // по задумке печатается элемент под нулевым и пятым индексами
-        String fourth = letters.get(5); // в дальнейшем планирую исправить, чтоб буквы тоже печатались рандомные
+        int first = generator.nextInt(6); // генерирую рандомные числа
+        int second = generator.nextInt(6);
 
-        guessedLetters.put(0,letters.get(0));
-        guessedLetters.put(5,letters.get(5));
+        String firstRandomLetter = letters.get(first); // достаю буквы под этими числами
+        String secondRandomLetter = letters.get(second);
+
+        guessedLetters.put(first,letters.get(first));
+        guessedLetters.put(second,letters.get(second));
 
         // печатаю слово для того, чтоб пользователь начинал угадывать буквы
-        System.out.println(first + "_____" + fourth + "__");
+        for (String string : letters) {
+            if (string.equals(firstRandomLetter) || string.equals(secondRandomLetter)) {
+                System.out.print(string); // если буква рандомная, то она печатается
+            } else {
+                System.out.print("_"); // иначе на месте буквы печатается знак "_"
+            }
+        }
     }
 
 }
